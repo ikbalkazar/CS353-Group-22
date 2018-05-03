@@ -1,0 +1,10 @@
+logging:
+  level: INFO
+  loggers:
+    com.bilplay: DEBUG
+
+database:
+  driverClass: "com.mysql.jdbc.Driver"
+  user: "admin"
+  password: "password"
+  url: "jdbc:mysql://db:3306/bilplay?useSSL=false"

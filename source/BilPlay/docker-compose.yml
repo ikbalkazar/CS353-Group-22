@@ -1,0 +1,15 @@
+version: '3'
+services:
+  bilplay:
+    build: .
+    ports:
+     - "8080:8080"
+    depends_on:
+      - db
+  db:
+    image: mysql
+    environment:
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=password
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=bilplay
