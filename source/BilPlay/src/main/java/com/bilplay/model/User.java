@@ -1,6 +1,9 @@
 package com.bilplay.model;
 
-public class User {
+import javax.security.auth.Subject;
+import java.nio.file.attribute.UserPrincipal;
+
+public class User implements UserPrincipal {
     private int id;
     private String username;
     private String email;
@@ -8,6 +11,16 @@ public class User {
     private double budget;
     private boolean isAdmin;
     private int bannedBy;
+
+    @Override
+    public String getName() {
+        return username;
+    }
+
+    @Override
+    public boolean implies(Subject subject) {
+        return false;
+    }
 
     public User() {
     }

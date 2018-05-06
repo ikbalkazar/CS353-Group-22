@@ -10,4 +10,4 @@ COPY . /usr/src/bilplay
 
 RUN mvn package
 
-CMD ["/usr/src/bilplay/run.sh"]
+CMD ["java", "-jar", "/usr/src/bilplay/target/BilPlay-1.0.jar", "server", "config.yml"]

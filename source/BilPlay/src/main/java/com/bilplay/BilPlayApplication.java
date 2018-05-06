@@ -1,7 +1,8 @@
 package com.bilplay;
 
+import com.bilplay.auth.AuthFeature;
 import com.bilplay.db.MainDao;
-import com.bilplay.resources.IndexResource;
+import com.bilplay.resources.MainResource;
 import io.dropwizard.Application;
 import io.dropwizard.jdbi3.JdbiFactory;
 import io.dropwizard.setup.Bootstrap;
@@ -32,8 +33,10 @@ public class BilPlayApplication extends Application<BilPlayConfiguration> {
         final Jdbi db = dbFactory.build(environment, configuration.getDataSourceFactory(), "mysql");
         final MainDao dao = db.onDemand(MainDao.class);
 
-        final IndexResource index = new IndexResource(dao);
-        environment.jersey().register(index);
+        environment.jersey().register(new AuthFeature(dao));
+
+        final MainResource main = new MainResource(dao);
+        environment.jersey().register(main);
     }
 
 }

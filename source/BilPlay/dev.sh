@@ -10,8 +10,8 @@ elif [ $1 == "stop" ]; then
 elif [ $1 == "db" ]; then
 	docker-compose exec db mysql -uadmin -ppassword -Dbilplay
 elif [ $1 == "init-db" ]; then
-	docker cp schema.sql $(docker-compose ps -q db):/
-	docker exec $(docker-compose ps -q db) /bin/sh -c 'mysql -uadmin -ppassword -Dbilplay </schema.sql'
+	docker cp schema.sql bilplay_db_1:/
+	docker exec bilplay_db_1 /bin/sh -c 'mysql -uadmin -ppassword -Dbilplay </schema.sql'
 else
 	echo "unknown command"
 fi
