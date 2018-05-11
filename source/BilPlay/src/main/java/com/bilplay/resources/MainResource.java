@@ -2,7 +2,10 @@ package com.bilplay.resources;
 
 import com.bilplay.auth.Authenticated;
 import com.bilplay.db.MainDao;
+import com.bilplay.model.Game;
+import com.bilplay.model.Review;
 import com.bilplay.model.User;
+import com.bilplay.view.GameView;
 import com.bilplay.view.IndexView;
 import com.bilplay.view.LoginView;
 import com.bilplay.view.SignupView;
@@ -77,5 +80,14 @@ public class MainResource {
                 .cookie(new NewCookie("bilplay-username", username))
                 .cookie(new NewCookie("bilplay-password", password))
                 .build();
+    }
+
+    @Path("/games/{id}")
+    @GET
+    @Authenticated
+    public GameView game(@PathParam("id") int id) {
+        Game game = dao.getGameById(id);
+        List<Review> reviews = dao.getGameReviews(id);
+        return new GameView(game, reviews);
     }
 }

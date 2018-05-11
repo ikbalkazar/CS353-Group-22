@@ -1,6 +1,8 @@
 package com.bilplay.db;
 
 import com.bilplay.model.User;
+import com.bilplay.model.Game;
+import com.bilplay.model.Review;
 import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
 import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
@@ -28,4 +30,11 @@ public interface MainDao {
     @RegisterBeanMapper(User.class)
     void addNewUser(@Bind("username") String username, @Bind("email") String email, @Bind("password") String password );
 
+    @SqlQuery("SELECT * FROM game WHERE id = :id")
+    @RegisterBeanMapper(Game.class)
+    Game getGameById(@Bind("id") int id);
+
+    @SqlQuery("SELECT * FROM review WHERE game_id = :id")
+    @RegisterBeanMapper(Review.class)
+    List<Review> getGameReviews(@Bind("id") int id);
 }

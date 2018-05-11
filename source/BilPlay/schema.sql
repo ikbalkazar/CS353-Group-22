@@ -1,3 +1,5 @@
+SET FOREIGN_KEY_CHECKS = 0;
+
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
 	`id` INT NOT NULL AUTO_INCREMENT,
@@ -35,3 +37,17 @@ CREATE TABLE `game` (
 INSERT INTO `game` (`name`, `description`) VALUES ('DOTA', 'The most played game on stream');
 
 
+DROP TABLE IF EXISTS `review`;
+CREATE TABLE `review` (
+    `user_id` INT NOT NULL,
+    `game_id` INT NOT NULL,
+    `rating` INT NOT NULL,
+    `comment` VARCHAR(256),
+    `created_at` TIMESTAMP NOT NULL DEFAULT NOW(),
+    PRIMARY KEY (`user_id`, `game_id`),
+    FOREIGN KEY (`user_id`) REFERENCES `user`(id),
+    FOREIGN KEY (`game_id`) REFERENCES `game`(id)
+);
+INSERT INTO `review` (`user_id`, `game_id`, `rating`, `comment`) VALUES (1, 1, 5, 'Great game!');
+
+SET FOREIGN_KEY_CHECKS = 1;
