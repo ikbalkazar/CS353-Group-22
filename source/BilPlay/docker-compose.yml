@@ -5,11 +5,11 @@ services:
     ports:
      - "8080:8080"
     depends_on:
-      - db
+     - db
   db:
-    image: mysql
+    image: mysql:5
     environment:
-      - MYSQL_USER=admin
-      - MYSQL_PASSWORD=password
-      - MYSQL_ROOT_PASSWORD=password
-      - MYSQL_DATABASE=bilplay
+     - MYSQL_USER=admin
+     - MYSQL_PASSWORD=password
+     - MYSQL_ROOT_PASSWORD=password
+     - MYSQL_DATABASE=bilplay

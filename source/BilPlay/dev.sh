@@ -2,9 +2,9 @@
 
 if [ $1 == "run" ]; then
 	docker-compose stop bilplay
-	docker-compose build bilplay
-	docker-compose up -d bilplay
-	docker-compose logs -f bilplay
+	docker-compose build
+	docker-compose up -d
+	docker-compose logs -f
 elif [ $1 == "stop" ]; then
 	docker-compose stop bilplay
 elif [ $1 == "db" ]; then

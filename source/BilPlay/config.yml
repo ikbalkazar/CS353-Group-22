@@ -8,3 +8,5 @@ database:
   user: "admin"
   password: "password"
   url: "jdbc:mysql://db:3306/bilplay?useSSL=false"
+  initialSize: 0
+  minSize: 0
