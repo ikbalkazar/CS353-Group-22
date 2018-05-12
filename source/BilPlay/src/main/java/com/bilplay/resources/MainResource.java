@@ -53,6 +53,12 @@ public class MainResource {
         return new LoginView();
     }
 
+    @Path("/MyLibrary")
+    @POST
+    public MyLibraryView MyLibrary( @FormParam("username") String username ){
+	return new MyLibraryView();
+    }
+
     @Path("/submit_signup")
     @POST
     public Response submitSignup(@FormParam("username") String username, @FormParam("email") String email, @FormParam("password") String password, @FormParam("password2") String password2 ){
