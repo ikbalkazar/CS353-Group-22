@@ -20,7 +20,7 @@
 </style>
 </head>
 <body>
-<form action="/submit_signup" method="postsign">
+<form action="/submit_signup" method="post">
 	<div class = "container">
 		
 		<h1 style = "text-align:center; font-size:60px; background-color:DodgerBlue; color:White;">

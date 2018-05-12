@@ -6,6 +6,7 @@ import com.bilplay.model.Review;
 import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
 import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
+import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 
 import java.util.List;
 
@@ -26,8 +27,7 @@ public interface MainDao {
     @RegisterBeanMapper(User.class)
     User getUserByEmail(@Bind("email") String email);
 
-    @SqlQuery("INSERT INTO `user` (`user`, `password`, `email` ) VALUES ( :username, :password, :email )")
-    @RegisterBeanMapper(User.class)
+    @SqlUpdate("INSERT INTO `user` (`username`, `password`, `email` ) VALUES ( :username, :password, :email )")
     void addNewUser(@Bind("username") String username, @Bind("email") String email, @Bind("password") String password );
 
     @SqlQuery("SELECT * FROM game WHERE id = :id")

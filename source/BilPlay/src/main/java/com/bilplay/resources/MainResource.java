@@ -53,15 +53,18 @@ public class MainResource {
         return new LoginView();
     }
 
-    @Path("/submit_Signup")
+    @Path("/submit_signup")
     @POST
     public Response submitSignup(@FormParam("username") String username, @FormParam("email") String email, @FormParam("password") String password, @FormParam("password2") String password2 ){
 	User userByName = dao.getUserByUsername( username );
 	User userByEmail = dao.getUserByEmail( email );
 	
-	if( userByName == null && userByEmail == null && password == password2 ){
+	if( userByName == null && userByEmail == null && password.equals(password2) ){
 		dao.addNewUser( username, email, password );
-		return Response.status( Response.Status.UNAUTHORIZED ).build();
+	    return Response.seeOther(URI.create("/index"))
+                .cookie(new NewCookie("bilplay-username", username))
+                .cookie(new NewCookie("bilplay-password", password))
+                .build();
 	}
 	return Response.status( Response.Status.UNAUTHORIZED ).build();
 
