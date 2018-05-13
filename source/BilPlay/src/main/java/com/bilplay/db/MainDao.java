@@ -27,6 +27,12 @@ public interface MainDao {
     @RegisterBeanMapper(User.class)
     List<User> getFriends(@Bind("id") int id);
 
+    @SqlUpdate("INSERT INTO friend (user_id, friend_id) VALUES (:user_id, :friend_id)")
+    void addFriend(@Bind("user_id") int userId, @Bind("friend_id") int friendId);
+
+    @SqlUpdate("DELETE FROM friend WHERE user_id = :user_id AND friend_id = :friend_id")
+    void deleteFriend(@Bind("user_id") int userId, @Bind("friend_id") int friendId);
+
     @SqlQuery("SELECT * FROM user WHERE email = :email")
     @RegisterBeanMapper(User.class)
     User getUserByEmail(@Bind("email") String email);

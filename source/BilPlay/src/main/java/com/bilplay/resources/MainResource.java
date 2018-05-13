@@ -25,6 +25,8 @@ public class MainResource {
         return Response.status(Response.Status.BAD_REQUEST).build();
     }
 
+    private static Response acceptRequest() { return Response.status(Response.Status.OK).build(); }
+
     private static Response redirect(String url) {
         return Response.seeOther(URI.create(url)).build();
     }
@@ -146,5 +148,31 @@ public class MainResource {
         User user = (User)context.getUserPrincipal();
         List<User> friends = dao.getFriends(user.getId());
         return new FriendsView(friends);
+    }
+
+    @Path("/add_friend")
+    @POST
+    @Authenticated
+    public Response addFriend(@FormParam("username") String username, @Context SecurityContext context) {
+        User user = (User)context.getUserPrincipal();
+        User friend = dao.getUserByUsername(username);
+        if (friend == null) {
+            return rejectRequest();
+        }
+        dao.addFriend(user.getId(), friend.getId());
+        return redirect("/friends");
+    }
+
+    @Path("/delete_friend/{friendId}")
+    @POST
+    @Authenticated
+    public Response deleteFriend(@PathParam("friendId") int friendId, @Context SecurityContext context) {
+        User user = (User)context.getUserPrincipal();
+        User friend = dao.getUserById(friendId);
+        if (friend == null) {
+            return rejectRequest();
+        }
+        dao.deleteFriend(user.getId(), friend.getId());
+        return redirect("/friends");
     }
 }
