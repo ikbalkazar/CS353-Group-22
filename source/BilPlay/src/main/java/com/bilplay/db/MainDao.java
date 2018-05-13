@@ -15,6 +15,10 @@ public interface MainDao {
     @RegisterBeanMapper(User.class)
     User getUserById(@Bind("id") int id);
 
+    @SqlQuery("SELECT id FROM user WHERE username = :username")
+    @RegisterBeanMapper(User.class)
+    int getIdByUsername(@Bind("username") String username);
+
     @SqlQuery("SELECT * FROM user WHERE username = :username")
     @RegisterBeanMapper(User.class)
     User getUserByUsername(@Bind("username") String username);
@@ -43,4 +47,9 @@ public interface MainDao {
 
     @SqlUpdate("INSERT INTO purchase (user_id, game_id) VALUES (:user_id, :game_id)")
     void addPurchase(@Bind("user_id") int userId, @Bind("game_id") int gameId);
+    
+    @SqlQuery("SELECT game_id FROM purchase WHERE user_id = :id")
+    List<Integer> getGamesByIdOfUser( @Bind("id") int id );
+    
+
 }

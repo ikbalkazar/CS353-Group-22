@@ -10,7 +10,7 @@ import com.bilplay.view.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
-import java.util.List;
+import java.util.*;
 
 @Path("/")
 @Produces(MediaType.TEXT_HTML)
@@ -59,9 +59,24 @@ public class MainResource {
     }
 
     @Path("/MyLibrary")
+<<<<<<< 889667e8d4ef08d876ce91951a03ae03e0cc7bd4
     @POST
     public MyLibraryView MyLibrary(@FormParam("username") String username ){
 	return new MyLibraryView();
+=======
+    @GET
+    @Authenticated
+    public MyLibraryView MyLibrary( @Context SecurityContext context, @QueryParam("game_id") int game_id ){
+	User user = (User)context.getUserPrincipal();
+	String username = user.getName();
+	int id = dao.getIdByUsername( username );
+	List<Integer> gamesID = dao.getGamesByIdOfUser( id );
+	ArrayList<Game> games = new ArrayList<Game>();
+	for( int i = 0 ; i < gamesID.size() ; i++ ){
+		games.add( dao.getGameById( gamesID.get(i) ) );
+	}
+	return new MyLibraryView( username, games, game_id );
+>>>>>>> mylibrary, header
     }
 
     @Path("/submit_signup")
