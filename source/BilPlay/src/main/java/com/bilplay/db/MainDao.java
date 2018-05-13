@@ -56,6 +56,17 @@ public interface MainDao {
     
     @SqlQuery("SELECT game_id FROM purchase WHERE user_id = :id")
     List<Integer> getGamesByIdOfUser( @Bind("id") int id );
-    
+
+    @SqlUpdate("UPDATE user SET firstName = :firstName WHERE id = :id")
+    void setFirstName(@Bind("firstName") String firstName, @Bind("id") int id);
+
+    @SqlUpdate("UPDATE user SET lastName = :lastName WHERE id = :id")
+    void setLastName(@Bind("lastName") String lastName, @Bind("id") int id);
+
+    @SqlUpdate("UPDATE user SET budget = :budget + budget WHERE id = :id")
+    void addBudget(@Bind("budget") double budget, @Bind("id") int id );
+
+    @SqlUpdate("UPDATE user SET password = :password WHERE id = :id")
+    void setPassword(@Bind("password") String password, @Bind("id") int id );
 
 }

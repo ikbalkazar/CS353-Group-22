@@ -5,6 +5,8 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
 	`id` INT NOT NULL AUTO_INCREMENT,
 	`username` VARCHAR(32) NOT NULL,
+	`firstName` VARCHAR(64),
+	`lastName` VARCHAR(64),
 	`email` VARCHAR(256) NOT NULL,
 	`password` VARCHAR(32) NOT NULL,
 	`budget` DOUBLE NOT NULL DEFAULT 0,

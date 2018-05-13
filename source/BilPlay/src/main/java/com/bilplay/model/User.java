@@ -6,6 +6,8 @@ import java.nio.file.attribute.UserPrincipal;
 public class User implements UserPrincipal {
     private int id;
     private String username;
+    private String firstName;
+    private String lastName;
     private String email;
     private String password;
     private double budget;
@@ -40,6 +42,14 @@ public class User implements UserPrincipal {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    public String getFirstName() {  return firstName; }
+
+    public void setFirstName( String firstName ) { this.firstName = firstName;  }
+
+    public String getLastName() {   return lastName; }
+
+    public void setLastName( String lastName ) {    this.lastName = lastName; }
 
     public String getEmail() {
         return email;

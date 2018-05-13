@@ -7,6 +7,7 @@ import com.bilplay.model.Review;
 import com.bilplay.model.User;
 import com.bilplay.view.*;
 
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
@@ -101,7 +102,7 @@ public class MainResource {
         if (user == null || !user.getPassword().equals(password)) {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
-        return Response.seeOther(URI.create("/index"))
+        return Response.seeOther(URI.create("/profile"))
                 .cookie(new NewCookie("bilplay-username", username))
                 .cookie(new NewCookie("bilplay-password", password))
                 .build();
@@ -175,4 +176,55 @@ public class MainResource {
         dao.deleteFriend(user.getId(), friend.getId());
         return redirect("/friends");
     }
+
+    @Path("/profile")
+    @GET
+    @Authenticated
+    public ProfileView profile(@DefaultValue("") @QueryParam("message") String message, @Context SecurityContext context){
+        User user = (User)context.getUserPrincipal();
+        return new ProfileView( user.getFirstName() , user.getLastName() , user.getBudget(), message );
+    }
+
+    @Path("/addBudget")
+    @POST
+    @Authenticated
+    public Response addBudget( @FormParam("budget") double budget , @Context SecurityContext context ){
+        User user = (User)context.getUserPrincipal();
+        if ( budget > 0.0 )
+            dao.addBudget( budget , user.getId() );
+
+        return Response.seeOther(URI.create("/profile")).build();
+
+    }
+
+    @Path("/nameChange")
+    @POST
+    @Authenticated
+    public Response nameChange(@FormParam("firstName") String firstName, @FormParam("lastName") String lastName, @Context SecurityContext context){
+        User user = (User)context.getUserPrincipal();
+        dao.setFirstName( firstName , user.getId() );
+        dao.setLastName( lastName , user.getId() );
+
+        return Response.seeOther(URI.create("/profile")).build();
+    }
+
+    @Path("/passwordChange")
+    @POST
+    @Authenticated
+    public Response passwordChange(@FormParam("password") String password, @FormParam("newPassword") String newPassword, @FormParam("reNewPassword") String reNewPassword, @Context SecurityContext context){
+        User user = (User)context.getUserPrincipal();
+        if ( !user.getPassword().equals( password ) )
+            return Response.seeOther(URI.create("/profile?message=Incorrect%20Password%20!")).build();
+        if ( !newPassword.equals( reNewPassword ) )
+            return Response.seeOther(URI.create("/profile?message=New%20passwords%20does%20not%20match%20!")).build();
+
+        dao.setPassword( newPassword , user.getId() );
+
+        return Response.seeOther(URI.create("/profile?message=Password%20Changed%20!")).build();
+
+
+    }
+
 }
+
+
