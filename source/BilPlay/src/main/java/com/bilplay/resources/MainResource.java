@@ -59,24 +59,18 @@ public class MainResource {
     }
 
     @Path("/MyLibrary")
-<<<<<<< 889667e8d4ef08d876ce91951a03ae03e0cc7bd4
-    @POST
-    public MyLibraryView MyLibrary(@FormParam("username") String username ){
-	return new MyLibraryView();
-=======
     @GET
     @Authenticated
     public MyLibraryView MyLibrary( @Context SecurityContext context, @QueryParam("game_id") int game_id ){
-	User user = (User)context.getUserPrincipal();
-	String username = user.getName();
-	int id = dao.getIdByUsername( username );
-	List<Integer> gamesID = dao.getGamesByIdOfUser( id );
-	ArrayList<Game> games = new ArrayList<Game>();
-	for( int i = 0 ; i < gamesID.size() ; i++ ){
-		games.add( dao.getGameById( gamesID.get(i) ) );
-	}
-	return new MyLibraryView( username, games, game_id );
->>>>>>> mylibrary, header
+        User user = (User)context.getUserPrincipal();
+        String username = user.getName();
+        int id = dao.getIdByUsername( username );
+        List<Integer> gamesID = dao.getGamesByIdOfUser( id );
+        ArrayList<Game> games = new ArrayList<Game>();
+        for( int i = 0 ; i < gamesID.size() ; i++ ){
+            games.add( dao.getGameById( gamesID.get(i) ) );
+        }
+        return new MyLibraryView( username, games, game_id );
     }
 
     @Path("/submit_signup")
@@ -145,4 +139,12 @@ public class MainResource {
         return redirect("/MyLibrary");
     }
 
+    @Path("/friends")
+    @GET
+    @Authenticated
+    public FriendsView friends(@Context SecurityContext context) {
+        User user = (User)context.getUserPrincipal();
+        List<User> friends = dao.getFriends(user.getId());
+        return new FriendsView(friends);
+    }
 }
