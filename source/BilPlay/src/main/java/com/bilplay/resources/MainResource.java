@@ -5,10 +5,7 @@ import com.bilplay.db.MainDao;
 import com.bilplay.model.Game;
 import com.bilplay.model.Review;
 import com.bilplay.model.User;
-import com.bilplay.view.GameView;
-import com.bilplay.view.IndexView;
-import com.bilplay.view.LoginView;
-import com.bilplay.view.SignupView;
+import com.bilplay.view.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
@@ -55,7 +52,7 @@ public class MainResource {
 
     @Path("/MyLibrary")
     @POST
-    public MyLibraryView MyLibrary( @FormParam("username") String username ){
+    public MyLibraryView MyLibrary(@FormParam("username") String username ){
 	return new MyLibraryView();
     }
 
