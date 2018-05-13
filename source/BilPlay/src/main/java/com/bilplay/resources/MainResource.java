@@ -21,6 +21,14 @@ public class MainResource {
         this.dao = dao;
     }
 
+    private static Response rejectRequest() {
+        return Response.status(Response.Status.BAD_REQUEST).build();
+    }
+
+    private static Response redirect(String url) {
+        return Response.seeOther(URI.create(url)).build();
+    }
+
     @Path("/index")
     @GET
     @Authenticated
@@ -96,4 +104,30 @@ public class MainResource {
         List<Review> reviews = dao.getGameReviews(id);
         return new GameView(game, reviews);
     }
+
+    @Path("/purchase/{id}")
+    @GET
+    @Authenticated
+    public PurchaseView purchase(@PathParam("id") int id, @Context SecurityContext context) {
+        User user = (User)context.getUserPrincipal();
+        Game game = dao.getGameById(id);
+        return new PurchaseView(user, game);
+    }
+
+    @Path("/make_purchase/{id}")
+    @POST
+    @Authenticated
+    public Response makePurchase(@PathParam("id") int id, @Context SecurityContext context) {
+        User user = (User)context.getUserPrincipal();
+        Game game = dao.getGameById(id);
+        System.out.printf("budget: %f\n", user.getBudget());
+        if (user.getBudget() < game.getPrice()) {
+            return rejectRequest();
+        }
+        Double newBudget = user.getBudget() - game.getPrice();
+        dao.updateUserBudget(user.getId(), newBudget);
+        dao.addPurchase(user.getId(), game.getId());
+        return redirect("/MyLibrary");
+    }
+
 }

@@ -37,4 +37,10 @@ public interface MainDao {
     @SqlQuery("SELECT * FROM review WHERE game_id = :id")
     @RegisterBeanMapper(Review.class)
     List<Review> getGameReviews(@Bind("id") int id);
+
+    @SqlUpdate("UPDATE user SET budget = :budget WHERE id = :user_id")
+    void updateUserBudget(@Bind("user_id") int userId, @Bind("budget") Double budget);
+
+    @SqlUpdate("INSERT INTO purchase (user_id, game_id) VALUES (:user_id, :game_id)")
+    void addPurchase(@Bind("user_id") int userId, @Bind("game_id") int gameId);
 }

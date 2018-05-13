@@ -7,5 +7,6 @@
 <h3>${review.gameId}</h3>
 <p>${review.comment}</p>
 </#list>
+<a href="/purchase/${game.id}">Purchase</a>
 </body>
 </html>

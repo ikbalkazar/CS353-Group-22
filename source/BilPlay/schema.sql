@@ -9,8 +9,8 @@ CREATE TABLE `user` (
 	`budget` DOUBLE NOT NULL DEFAULT 0,
 	PRIMARY KEY (`id`)
 );
-INSERT INTO `user` (`username`, `password`, `email`) VALUES ('admin', 'password', 'admin@gmail.com');
-INSERT INTO `user` (`username`, `password`, `email`) VALUES ('co-admin', 'password', 'co-admin@gmail.com');
+INSERT INTO `user` (`username`, `password`, `email`, `budget`) VALUES ('admin', 'password', 'admin@gmail.com', 50);
+INSERT INTO `user` (`username`, `password`, `email`, `budget`) VALUES ('co-admin', 'password', 'co-admin@gmail.com', 100);
 
 
 DROP TABLE IF EXISTS `friend`;
@@ -34,7 +34,7 @@ CREATE TABLE `game` (
     `description` VARCHAR(1024),
     PRIMARY KEY (`id`)
 );
-INSERT INTO `game` (`name`, `description`) VALUES ('DOTA', 'The most played game on stream');
+INSERT INTO `game` (`name`, `description`, `price`) VALUES ('DOTA', 'The most played game on stream', 20);
 
 
 DROP TABLE IF EXISTS `review`;
@@ -49,5 +49,15 @@ CREATE TABLE `review` (
     FOREIGN KEY (`game_id`) REFERENCES `game`(id)
 );
 INSERT INTO `review` (`user_id`, `game_id`, `rating`, `comment`) VALUES (1, 1, 5, 'Great game!');
+
+
+DROP TABLE IF EXISTS `purchase`;
+CREATE TABLE `purchase` (
+    `user_id` INT NOT NULL,
+    `game_id` INT NOT NULL,
+    PRIMARY KEY (`user_id`, `game_id`),
+    FOREIGN KEY (`user_id`) REFERENCES `user`(id),
+    FOREIGN KEY (`game_id`) REFERENCES `game`(id)
+);
 
 SET FOREIGN_KEY_CHECKS = 1;
