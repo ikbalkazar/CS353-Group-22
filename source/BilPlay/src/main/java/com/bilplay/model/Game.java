@@ -6,6 +6,8 @@ public class Game {
     private double price;
     private String description;
     private int mode;
+    private String pic;
+    private Double rating;
 
     public int getId() {
         return id;
@@ -45,5 +47,21 @@ public class Game {
 
     public void setMode(int mode) {
         this.mode = mode;
+    }
+
+    public String getPic(){
+      return pic;
+    }
+
+    public void setPic(String url){
+      this.pic = url;
+    }
+
+    public Double getRating(){
+      return rating;
+    }
+
+    public void setRating(Double rating){
+      this.rating = rating;
     }
 }

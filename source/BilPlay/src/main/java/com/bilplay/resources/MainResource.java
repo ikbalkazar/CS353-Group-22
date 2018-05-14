@@ -90,7 +90,7 @@ public class MainResource {
     public Response submitSignup(@FormParam("username") String username, @FormParam("email") String email, @FormParam("password") String password, @FormParam("password2") String password2 ){
 	User userByName = dao.getUserByUsername( username );
 	User userByEmail = dao.getUserByEmail( email );
-	
+
 	if( userByName == null && userByEmail == null && password.equals(password2) ){
 		dao.addNewUser( username, email, password );
 	    return Response.seeOther(URI.create("/index"))
@@ -102,6 +102,12 @@ public class MainResource {
 
 
     }
+
+
+
+
+
+
 
     @Path("/submit_login")
     @POST
@@ -313,6 +319,41 @@ public class MainResource {
             dao.leaveSession(sessionId, user.getId());
         }
         return redirect("/MyLibrary");
+    }
+
+    @Path("/store")
+    @GET
+    public StoreView store(@DefaultValue("null") @QueryParam("genre") String genre, @DefaultValue("-1") @QueryParam("price") int price,@DefaultValue("-1") @QueryParam("rating") int rating){
+        Double lowRating, highRating;
+        int lowPrice, highPrice;
+        List<Game> games;
+        if(price == -1){
+          lowPrice = -1;
+          highPrice = 100;
+        }
+        else{
+          lowPrice = (price - 1) * 5;
+          highPrice = price * 5;
+        }
+        if(rating == -1){
+          lowRating = 0.0;
+          highRating = 10.0;
+        }
+        else{
+          lowRating = rating * 2.5;
+          highRating = (rating + 1) * 2.5;
+        }
+        if(genre.equals("null"))
+          games = dao.getGamesInStoreNoGenre(lowPrice,highPrice,lowRating,highRating);
+        else
+          games = dao.getGamesInStore(genre,lowPrice,highPrice,lowRating,highRating);
+        return new StoreView(games);
+    }
+
+    @Path("/store_search")
+    @POST
+    public Response storeSearch(@DefaultValue("null") @FormParam("genre") String genre, @DefaultValue("-1") @FormParam("price") int price, @DefaultValue("-1") @FormParam("rating") int rating){
+        return Response.seeOther(URI.create("/store?genre=" + genre +"&price=" + price + "&rating=" + rating)).build();
     }
 }
 

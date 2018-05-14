@@ -59,9 +59,17 @@ public interface MainDao {
 
     @SqlUpdate("INSERT INTO purchase (user_id, game_id) VALUES (:user_id, :game_id)")
     void addPurchase(@Bind("user_id") int userId, @Bind("game_id") int gameId);
-    
+
     @SqlQuery("SELECT game_id FROM purchase WHERE user_id = :id")
     List<Integer> getGamesByIdOfUser( @Bind("id") int id );
+
+    @SqlQuery("SELECT id,name,price,pic,rating FROM game,(SELECT game_id,AVG(rating) as rating FROM review GROUP BY game_id) AS reviews WHERE id = game_id AND genre = :genre AND price > :lowPrice AND price <= :highPrice AND rating >= :lowRating AND rating <= :highRating")
+    @RegisterBeanMapper(Game.class)
+    List<Game> getGamesInStore( @Bind("genre") String genre, @Bind("lowPrice") int lowPrice,@Bind("highPrice") int highPrice, @Bind("lowRating") Double lowRating, @Bind("highRating") Double highRating);
+
+    @SqlQuery("SELECT id,name,price,pic,rating FROM game,(SELECT game_id,AVG(rating) as rating FROM review GROUP BY game_id) AS reviews WHERE id = game_id AND price > :lowPrice AND price <= :highPrice AND rating >= :lowRating AND rating <= :highRating")
+    @RegisterBeanMapper(Game.class)
+    List<Game> getGamesInStoreNoGenre( @Bind("lowPrice") int lowPrice,@Bind("highPrice") int highPrice, @Bind("lowRating") Double lowRating, @Bind("highRating") Double highRating);
 
     @SqlUpdate("UPDATE user SET firstName = :firstName WHERE id = :id")
     void setFirstName(@Bind("firstName") String firstName, @Bind("id") int id);
