@@ -1,4 +1,3 @@
-<<<<<<< 889667e8d4ef08d876ce91951a03ae03e0cc7bd4
 SET FOREIGN_KEY_CHECKS = 0;
 
 DROP TABLE IF EXISTS `user`;
@@ -62,5 +61,18 @@ CREATE TABLE `purchase` (
     FOREIGN KEY (`user_id`) REFERENCES `user`(id),
     FOREIGN KEY (`game_id`) REFERENCES `game`(id)
 );
+
+DROP TABLE IF EXISTS `message`;
+CREATE TABLE `message` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `user_id` INT NOT NULL,
+    `friend_id` INT NOT NULL,
+    `content` VARCHAR(256),
+    `created_at` TIMESTAMP NOT NULL DEFAULT NOW(),
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`user_id`) REFERENCES `user`(id),
+    FOREIGN KEY (`friend_id`) REFERENCES `user`(id)
+);
+INSERT INTO `message` (`user_id`, `friend_id`, `content`) VALUES (1, 2, 'Hey co-admin!');
 
 SET FOREIGN_KEY_CHECKS = 1;

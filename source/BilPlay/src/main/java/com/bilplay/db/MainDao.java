@@ -1,5 +1,6 @@
 package com.bilplay.db;
 
+import com.bilplay.model.Message;
 import com.bilplay.model.User;
 import com.bilplay.model.Game;
 import com.bilplay.model.Review;
@@ -32,6 +33,13 @@ public interface MainDao {
 
     @SqlUpdate("DELETE FROM friend WHERE user_id = :user_id AND friend_id = :friend_id")
     void deleteFriend(@Bind("user_id") int userId, @Bind("friend_id") int friendId);
+
+    @SqlQuery("SELECT * FROM message WHERE (user_id = :user_id AND friend_id = :friend_id) OR (user_id = :friend_id AND friend_id = :user_id)")
+    @RegisterBeanMapper(Message.class)
+    List<Message> getMessages(@Bind("user_id") int userId, @Bind("friend_id") int friendId);
+
+    @SqlUpdate("INSERT INTO message (user_id, friend_id, content) VALUES (:uid, :fid, :ct)")
+    void addMessage(@Bind("uid") int uid, @Bind("fid") int fid, @Bind("ct") String ct);
 
     @SqlQuery("SELECT * FROM user WHERE email = :email")
     @RegisterBeanMapper(User.class)
@@ -68,5 +76,4 @@ public interface MainDao {
 
     @SqlUpdate("UPDATE user SET password = :password WHERE id = :id")
     void setPassword(@Bind("password") String password, @Bind("id") int id );
-
 }

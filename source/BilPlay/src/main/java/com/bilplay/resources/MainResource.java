@@ -3,6 +3,7 @@ package com.bilplay.resources;
 import com.bilplay.auth.Authenticated;
 import com.bilplay.db.MainDao;
 import com.bilplay.model.Game;
+import com.bilplay.model.Message;
 import com.bilplay.model.Review;
 import com.bilplay.model.User;
 import com.bilplay.view.*;
@@ -177,6 +178,7 @@ public class MainResource {
         return redirect("/friends");
     }
 
+
     @Path("/profile")
     @GET
     @Authenticated
@@ -225,6 +227,26 @@ public class MainResource {
 
     }
 
+    @Path("/chat/{friendId}")
+    @GET
+    @Authenticated
+    public ChatView chat(@PathParam("friendId") int friendId, @Context SecurityContext context) {
+        User user = (User)context.getUserPrincipal();
+        User friend = dao.getUserById(friendId);
+        List<Message> messages = dao.getMessages(user.getId(), friend.getId());
+        return new ChatView(messages, friend);
+    }
+
+    @Path("/message/{friendId}")
+    @POST
+    @Authenticated
+    public Response message(@FormParam("message") String message, @PathParam("friendId") int friendId, @Context SecurityContext context) {
+        User user = (User)context.getUserPrincipal();
+        User friend = dao.getUserById(friendId);
+        dao.addMessage(user.getId(), friend.getId(), message);
+        String url = "/chat/" + friend.getId();
+        return redirect(url);
+    }
 }
 
 
