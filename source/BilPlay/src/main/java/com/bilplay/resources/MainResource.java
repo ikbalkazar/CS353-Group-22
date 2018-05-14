@@ -47,16 +47,16 @@ public class MainResource {
 
     @Path("/SignUp")
     @GET
-    public SignupView Signup(){
+    public SignupView Signup( @DefaultValue("") @QueryParam("message") String message ){
 	System.out.println("++++++++++++++++++++++++++++++++++++++");
-	return new SignupView();
+	return new SignupView( message );
     }
 
     @Path("/login")
     @GET
-    public LoginView login() {
+    public LoginView login( @DefaultValue("") @QueryParam("message") String message ) {
         System.out.println("Login Page!");
-        return new LoginView();
+        return new LoginView( message );
     }
     @Path("/logout")
     @GET
@@ -91,6 +91,15 @@ public class MainResource {
 	User userByName = dao.getUserByUsername( username );
 	User userByEmail = dao.getUserByEmail( email );
 
+	if ( userByName != null )
+	    return Response.seeOther(URI.create("/SignUp?message=This%20username%20is%20currently%20in%20use!")).build();
+
+	if ( userByEmail != null )
+        return Response.seeOther(URI.create("/SignUp?message=This%20email%20is%20currently%20in%20use!")).build();
+
+	if ( !password.equals(password2) )
+        return Response.seeOther(URI.create("/SignUp?message=Passwords%20do%20not%20match!")).build();
+
 	if( userByName == null && userByEmail == null && password.equals(password2) ){
 		dao.addNewUser( username, email, password );
 	    return Response.seeOther(URI.create("/index"))
@@ -114,9 +123,13 @@ public class MainResource {
     public Response submitLogin(@FormParam("username") String username, @FormParam("password") String password) {
         System.out.printf("username: %s password:%s\n", username, password);
         User user = dao.getUserByUsername(username);
-        if (user == null || !user.getPassword().equals(password)) {
-            return Response.status(Response.Status.UNAUTHORIZED).build();
-        }
+
+        if ( user==null )
+            return Response.seeOther(URI.create("/login?message=User%20not%20found!")).build();
+
+        if ( !user.getPassword().equals(password) )
+            return Response.seeOther(URI.create("/login?message=Incorrect%20password!")).build();
+
         return Response.seeOther(URI.create("/profile"))
                 .cookie(new NewCookie("bilplay-username", username))
                 .cookie(new NewCookie("bilplay-password", password))

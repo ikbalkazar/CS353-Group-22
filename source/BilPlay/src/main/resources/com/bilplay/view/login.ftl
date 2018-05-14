@@ -47,5 +47,8 @@
 		</div>
 	</div>
 </form>
+
+<strong>${message}</strong>
+
 </body>
 </html>
