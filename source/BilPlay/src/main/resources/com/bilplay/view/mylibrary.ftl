@@ -70,7 +70,7 @@
 }
 .column7 {
     float: left;
-    width: 30%;
+    width: 50%;
     height: 175px; /* Should be removed. Only for demonstration */
 }
 .column8 {
@@ -150,9 +150,7 @@ table, td, th {
     <div class="column0"></div>
 	<div class="column1" style = "background-color:white; overflow:scroll">
         <#list games as game>
-            <ul type ="disc">
-                <li><font size = "4">${game.name}</font></li>
-            </ul>
+            <p><a href="/MyLibrary?game_id=${game.id}"> <font size = "4">${game.name}</font> </a> </p>
         </#list>
 
     </div>
@@ -172,18 +170,30 @@ table, td, th {
     		            <p><font size = "3"> Time Played : ${timePlayed} Hours</font></p>
     		        </div>
     		        <div class = "column7" style = "background-color:white;">
-    		            <p>
-    		                <input type="text" name="review" maxlength="100" placeholder="Review" required>
-    		            </p>
-    		            <p></p>
-    		            <p>
-    		                <input type="number" name="rating" min="1" max="10" placeholder="Rating" required>
-    		            </p>
+                        <form action="/postReview?game_id=${firstGame}" method="post">
+                            <div class = "grid-container">
+                                <div class = "grid-item">
+                                    <p>
+                                        <input type="text" name="review" maxlength="100" placeholder="Review" required>
+                                    </p>
+                                </div>
 
-    		        </div>
-    		        <div class = "column8" style = "background-color:white;">
-    		                <button class="button2">Post A Review</button>
-    		                <button class="button3">Post A Rating</button>
+                                <div class = "grid-item">
+                                    <p>
+                                        <input type="number" name="rating" min="1" max="10" placeholder="Rating" required>
+                                    </p>
+                                </div>
+                                <div class = "grid-item">
+                                    <button class="button2" type="submit">Post Review</button>
+                                </div>
+                            </div>
+                        </form>
+
+
+
+
+
+
     		        </div>
     		    </div>
             </div>

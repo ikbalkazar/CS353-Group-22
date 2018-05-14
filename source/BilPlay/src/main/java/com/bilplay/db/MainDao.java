@@ -113,4 +113,18 @@ public interface MainDao {
 
     @SqlUpdate("UPDATE session SET left_at = NOW() WHERE id = :id")
     void adminLeaveSession(@Bind("id") int id);
+
+    @SqlQuery("SELECT * FROM review WHERE user_id = :user_id AND game_id = :game_id")
+    @RegisterBeanMapper(Review.class)
+    Review getReview( @Bind("user_id") int user_id , @Bind("game_id") int game_id );
+
+    @SqlUpdate("INSERT INTO review (user_id,game_id,rating,comment) VALUES (':user_id',':game_id',':rating', ':comment')")
+    void addReview( @Bind("user_id") int user_id , @Bind("game_id") int game_id , @Bind("rating") int rating, @Bind("comment") String comment);
+
+    @SqlUpdate("UPDATE review SET rating = :rating WHERE user_id = :user_id AND game_id = :game_id")
+    void updateReviewRating( @Bind("user_id") int user_id , @Bind("game_id") int game_id , @Bind("rating") int rating );
+
+    @SqlUpdate("UPDATE review SET comment = :comment WHERE user_id = :user_id AND game_id = :game_id")
+    void updateReviewComment( @Bind("user_id") int user_id , @Bind("game_id") int game_id , @Bind("comment") String comment );
+
 }

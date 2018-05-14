@@ -18,6 +18,8 @@ public class MyLibraryView extends View{
 		this.games = games;
 		this.username = username;
 		this.firstGame = firstGame;
+		if ( this.firstGame == 0 )
+			this.firstGame = games.get(0).getId();
 		this.timePlayed = timePlayed;
 		this.game = game;
 	}

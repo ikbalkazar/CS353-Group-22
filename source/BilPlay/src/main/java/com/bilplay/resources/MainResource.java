@@ -80,9 +80,33 @@ public class MainResource {
         for( int i = 0 ; i < gamesID.size() ; i++ ){
             games.add( dao.getGameById( gamesID.get(i) ) );
         }
+
+        if ( game_id == 0 )
+            game_id = games.get(0).getId();
+
         Game game = dao.getGameById(game_id);
+
         int timePlayed = 218;
         return new MyLibraryView( username, games, game_id, timePlayed, game );
+    }
+
+    @Path("/postReview")
+    @POST
+    @Authenticated
+    public Response postReview( @Context SecurityContext context, @QueryParam("game_id") int game_id , @FormParam("review") String comment, @FormParam("rating") int rating  ){
+
+        User user = (User)context.getUserPrincipal();
+
+        Review r = dao.getReview( user.getId() , game_id );
+
+        if ( r==null )
+            dao.addReview( user.getId() , game_id , rating , comment );
+        else{
+            dao.updateReviewRating( user.getId() , game_id , rating );
+            dao.updateReviewComment( user.getId() , game_id , comment );
+        }
+
+        return Response.seeOther(URI.create("/MyLibrary")).build();
     }
 
     @Path("/submit_signup")
