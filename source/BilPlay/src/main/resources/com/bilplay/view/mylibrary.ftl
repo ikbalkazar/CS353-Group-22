@@ -2,15 +2,133 @@
 <head>
 <style>
 
-table, td, th{
-	border: 1px solid black;
-	border-collapse: collapse;
-	height: 50px;
-	width: 50%;
-	padding: 30px;
-	text-align: center;
-	vertical-align: center;
-	background-color: orange;
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+*{
+    box-sizing: border-box;
+}
+
+.column0 {
+    float: left;
+    width: 10%;
+    padding: 10px;
+    height: 600px; /* Should be removed. Only for demonstration */
+}
+
+.column1 {
+    float: left;
+    width: 15%;
+    padding: 10px;
+    height: 600px; /* Should be removed. Only for demonstration */
+    border: 2px solid black;
+}
+
+.column2 {
+    float: left;
+    width: 60%;
+    padding: 10px;
+    height: 600px; /* Should be removed. Only for demonstration */
+}
+
+.column3 {
+    float: left;
+    width: 30%;
+    padding: 10px;
+    height: 175px; /* Should be removed. Only for demonstration */
+}
+.column4 {
+    float: left;
+    width: 70%;
+    height: 175px; /* Should be removed. Only for demonstration */
+}
+.column5 {
+    float: left;
+    width: 12%;
+    height: 175px; /* Should be removed. Only for demonstration */
+}
+.column6 {
+    float: left;
+    width: 38%;
+    height: 175px; /* Should be removed. Only for demonstration */
+}
+.column7 {
+    float: left;
+    width: 30%;
+    height: 175px; /* Should be removed. Only for demonstration */
+}
+.column8 {
+    float: left;
+    width: 20%;
+    height: 175px; /* Should be removed. Only for demonstration */
+}
+
+.button {
+    background-color: #4CAF50;
+    border: 2px solid black;
+    color: black;
+    padding: 50px 45px;
+    text-align: center;
+    font-size: 25px;
+    cursor: pointer;
+    margin: 10px 60px;
+    background-color: white;
+}
+
+.button2 {
+    background-color: #4CAF50;
+    border: 2px solid black;
+    color: black;
+    padding: 10px 20px;
+    text-align: center;
+    font-size: 8px;
+    cursor: pointer;
+    margin: 15px 5px;
+    background-color: white;
+}
+
+.button3 {
+    background-color: #4CAF50;
+    border: 2px solid black;
+    color: black;
+    padding: 10px 20px;
+    text-align: center;
+    font-size: 8px;
+    cursor: pointer;
+    margin: -5px 5px;
+    background-color: white;
+}
+
+table, td, th {
+    border: 1px solid black;
+    border-collapse: collapse;
+    height: 15px;
+    width: 50%;
+    padding: 20px;
+    text-align: center;
+    vertical-align: center;
+}
+
+.wrap{
+    width:900px;
+    /*border:1px solid #000;*/
+    height:100%;
 }
 
 </style>
@@ -19,17 +137,58 @@ table, td, th{
 <body>
 <table align=center>
 	<tr>
-		<th>Store</th>
-		<th>My Library</th>
-		<th>Profile</th>
-		<th>Friends</th>
+		<th><a href="/games/1">Store</a></th>
+		<th><a href="/MyLibrary">My Library</a></th>
+		<th><a href="/profile">Profile</a></th>
+		<th><a href="/friends">Friends</a></th>
+		<th><a href="/logout">Log Out</a></th>
 	</tr>
 </table>
 
 <hr>
+<div class >
+    <div class="column0"></div>
+	<div class="column1" style = "background-color:white; overflow:scroll">
+        <#list games as game>
+            <p><font size = "4">${game.name}</font></p>
+        </#list>
 
-<#list games as game>
-<p>${game.name}</p>
-</#list>
+    </div>
+    <div class="column2" style = "background-color:purple;">
+    	<div class='wrap'>
+    		<div class = "blocks" style = "background-color:white; height:70%">
+
+            </div>
+
+    		<div class = "blocks" style = "background-color:white; height:30%">
+    		    <div class = "column3" style = "background-color:orange;">
+                    <button class="button">Play</button>
+    		    </div>
+    		    <div class = "column4" style = "background-color:white;">
+    		        <div class = "column5" style = "background-color:white;"></div>
+    		        <div class = "column6" style = "background-color:white;">
+    		            <p><font size = "3"> Time Played : ${timePlayed} Hours</font></p>
+    		        </div>
+    		        <div class = "column7" style = "background-color:white;">
+    		            <p>
+    		                <input type="text" name="review" maxlength="100" placeholder="Review" required>
+    		            </p>
+    		            <p></p>
+    		            <p>
+    		                <input type="number" name="rating" min="1" max="10" placeholder="Rating" required>
+    		            </p>
+
+    		        </div>
+    		        <div class = "column8" style = "background-color:white;">
+    		                <button class="button2">Post A Review</button>
+    		                <button class="button3">Post A Rating</button>
+    		        </div>
+    		    </div>
+            </div>
+		</div>
+
+    </div>
+</div>
+
 </body>
 </html>

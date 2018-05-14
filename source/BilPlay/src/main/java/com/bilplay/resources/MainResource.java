@@ -61,6 +61,15 @@ public class MainResource {
         System.out.println("Login Page!");
         return new LoginView();
     }
+    @Path("/logout")
+    @GET
+    public Response logout() {
+
+        return Response.seeOther(URI.create("/login"))
+            .cookie(new NewCookie("bilplay-username", "0000sa;ldfsdlkghsag" ))
+            .cookie(new NewCookie("bilplay-password", "apogjal;gnrng;weg" ))
+            .build();
+    }
 
     @Path("/MyLibrary")
     @GET
@@ -74,7 +83,8 @@ public class MainResource {
         for( int i = 0 ; i < gamesID.size() ; i++ ){
             games.add( dao.getGameById( gamesID.get(i) ) );
         }
-        return new MyLibraryView( username, games, game_id );
+        int timePlayed = 218;
+        return new MyLibraryView( username, games, game_id, timePlayed );
     }
 
     @Path("/submit_signup")
