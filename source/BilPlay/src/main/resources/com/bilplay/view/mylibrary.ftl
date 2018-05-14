@@ -150,7 +150,9 @@ table, td, th {
     <div class="column0"></div>
 	<div class="column1" style = "background-color:white; overflow:scroll">
         <#list games as game>
-            <p><font size = "4">${game.name}</font></p>
+            <ul type ="disc">
+                <li><font size = "4">${game.name}</font></li>
+            </ul>
         </#list>
 
     </div>
