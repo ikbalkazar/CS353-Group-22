@@ -1,25 +1,62 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Friends</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
 <body>
-<h1>Friends</h1>
-<h2>Add Friend</h2>
-<form action="/add_friend" method="post">
-    <label>Enter username</label>
-    <input type="text" name="username">
-    <button type="submit">Add</button>
-</form>
-<h2>Friends</h2>
-<#list friends as friend>
-<h3>${friend.username}</h3>
-<form action="/delete_friend/${friend.id}" method="post">
-    <button type="submit">Delete</button>
-</form>
-<a href="/chat/${friend.id}">Chat</a>
-</#list>
 
-<#list invites as invite>
-    <h2>${invite.sessionId}</h2>
-    <h2>${invite.userId}</h2>
-    <a href="/join/${invite.sessionId}">Accept</a>
-</#list>
+<div class="container">
+    <h2>Friends</h2>
+    <h3>Add Friend</h3>
+    <form action="/add_friend" method="post">
+        <label>Enter username</label>
+        <input type="text" name="username">
+        <button type="submit">Add</button>
+    </form>
+    <br><br>
+    <h2>Current Friends</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Username</th>
+        </tr>
+        </thead>
+        <tbody>
+            <#list friends as friend>
+                <tr>
+                    <td>${friend.username}</td>
+                    <td>
+                        <form action="/delete_friend/${friend.id}" method="post">
+                            <button type="submit">Delete</button>
+                        </form></td>
+                    <td><a href="/chat/${friend.id}">Chat</a></td>
+                </tr>
+            </#list>
+        </tbody>
+    </table>
+    <br><br>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Username</th>
+        </tr>
+        </thead>
+        <tbody>
+        <#list invites as invite>
+            <tr>
+                <td><h2>${invite.sessionId}</h2></td>
+                <td><h2>${invite.userId}</h2></td>
+                <td><a href="/join/${invite.sessionId}">Accept</a></td>
+            </tr>
+        </#list>
+        </tbody>
+    </table>
+</div>
+
 </body>
 </html>
