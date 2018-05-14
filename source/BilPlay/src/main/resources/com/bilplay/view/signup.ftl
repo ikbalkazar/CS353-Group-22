@@ -57,10 +57,12 @@
 		<div class = "grid-item">
 			<button type="submit">Sign Up</button>
 		</div>
+		<div class = "grid-item">
+			<strong>${message}</strong>
+		</div>
+	    
 	</div>
 </form>
-
-<strong>${message}</strong>
 
 </body>
 </html>

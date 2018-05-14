@@ -165,7 +165,7 @@ table, td, th {
 </table>
 <table align=center>
 	<tr>
-		<th><a href="/games/1">Store</a></th>
+		<th><a href="/store">Store</a></th>
 		<th><a href="/MyLibrary">My Library</a></th>
 		<th><a href="/profile">Profile</a></th>
 		<th><a href="/friends">Friends</a></th>

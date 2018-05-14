@@ -13,6 +13,22 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 </style>
 <body class="w3-content" style="max-width:1200px">
 
+<table align=center>
+    <tr>
+    <td><b>BILPLAY</b></td>
+    </tr>
+</table>
+<table align=center>
+	<tr>
+		<th><a href="/store">Store</a></th>
+		<th><a href="/MyLibrary">My Library</a></th>
+		<th><a href="/profile">Profile</a></th>
+		<th><a href="/friends">Friends</a></th>
+		<th><a href="/logout">Log Out</a></th>
+	</tr>
+</table>
+
+
 <!-- Sidebar/menu -->
 <nav class="w3-sidebar w3-bar-block w3-white w3-collapse w3-top" style="z-index:3;width:250px" id="mySidebar">
   <div class="w3-container w3-display-container w3-padding-16">
