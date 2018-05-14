@@ -94,6 +94,15 @@ public interface MainDao {
     @SqlUpdate("UPDATE invite SET accepted = 1 WHERE session_id = :sid AND user_id = :uid")
     void acceptInvite(@Bind("sid") int sessionId, @Bind("uid") int userId);
 
+    @SqlUpdate("UPDATE invite SET accepted_at = NOW() WHERE session_id = :sid AND user_id = :uid")
+    void updateInviteAcceptedAt(@Bind("sid") int sessionId, @Bind("uid") int userId);
+
     @SqlUpdate("INSERT INTO invite (session_id, user_id) VALUES (:sid, :fid)")
     void addInvite(@Bind("sid") int sessionId, @Bind("fid") int friendId);
+
+    @SqlUpdate("UPDATE invite SET left_at = NOW() WHERE session_id = :sid AND user_id = :uid")
+    void leaveSession(@Bind("sid") int sessionId, @Bind("uid") int userId);
+
+    @SqlUpdate("UPDATE session SET left_at = NOW() WHERE id = :id")
+    void adminLeaveSession(@Bind("id") int id);
 }

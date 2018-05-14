@@ -12,6 +12,6 @@
 <#list users as user>
 <h3>${user.username}</h3>
 </#list>
-<a href="/MyLibrary">Leave</a>
+<a href="/leave/${session.id}">Leave</a>
 </body>
 </html>

@@ -81,6 +81,8 @@ CREATE TABLE `session` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `creator_id` INT NOT NULL,
     `game_id` INT NOT NULL,
+    `created_at` TIMESTAMP NOT NULL DEFAULT NOW(),
+    `left_at` TIMESTAMP NULL,
     PRIMARY KEY (`id`),
     FOREIGN KEY (`creator_id`) REFERENCES `user`(id),
     FOREIGN KEY (`game_id`) REFERENCES `game`(id)
@@ -91,6 +93,8 @@ CREATE TABLE `invite` (
     `session_id` INT NOT NULL,
     `user_id` INT NOT NULL,
     `accepted` INT NOT NULL DEFAULT 0,
+    `left_at` TIMESTAMP NULL,
+    `accepted_at` TIMESTAMP NULL,
     PRIMARY KEY (`session_id`, `user_id`),
     FOREIGN KEY (`session_id`) REFERENCES `session`(id),
     FOREIGN KEY (`user_id`) REFERENCES `user`(id)

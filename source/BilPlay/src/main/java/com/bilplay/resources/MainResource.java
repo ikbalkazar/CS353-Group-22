@@ -284,15 +284,35 @@ public class MainResource {
     public Response join(@PathParam("sid") int sessionId, @Context SecurityContext context) {
         User user = (User)context.getUserPrincipal();
         dao.acceptInvite(sessionId, user.getId());
+        dao.updateInviteAcceptedAt(sessionId, user.getId());
         return redirect("/session/" + sessionId);
     }
 
     @Path("/invite/{sid}/{fid}")
     @GET
     @Authenticated
-    public Response invite(@PathParam("sid") int sessionId, @PathParam("fid") int friendId) {
+    public Response invite(@PathParam("sid") int sessionId, @PathParam("fid") int friendId, @Context SecurityContext context) {
+        Session session = dao.getSessionById(sessionId);
+        User user = (User)context.getUserPrincipal();
+        if (session.getCreatorId() != user.getId()) {
+            rejectRequest();
+        }
         dao.addInvite(sessionId, friendId);
         return redirect("/session/" + sessionId);
+    }
+
+    @Path("/leave/{sid}")
+    @GET
+    @Authenticated
+    public Response leave(@PathParam("sid") int sessionId, @Context SecurityContext context) {
+        User user = (User)context.getUserPrincipal();
+        Session session = dao.getSessionById(sessionId);
+        if (user.getId() == session.getCreatorId()) {
+            dao.adminLeaveSession(user.getId());
+        } else {
+            dao.leaveSession(sessionId, user.getId());
+        }
+        return redirect("/MyLibrary");
     }
 }
 
