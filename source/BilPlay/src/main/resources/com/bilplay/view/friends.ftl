@@ -15,5 +15,11 @@
 </form>
 <a href="/chat/${friend.id}">Chat</a>
 </#list>
+
+<#list invites as invite>
+    <h2>${invite.sessionId}</h2>
+    <h2>${invite.userId}</h2>
+    <a href="/join/${invite.sessionId}">Accept</a>
+</#list>
 </body>
 </html>

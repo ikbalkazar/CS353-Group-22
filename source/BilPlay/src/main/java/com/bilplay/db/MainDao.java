@@ -1,11 +1,9 @@
 package com.bilplay.db;
 
-import com.bilplay.model.Message;
-import com.bilplay.model.User;
-import com.bilplay.model.Game;
-import com.bilplay.model.Review;
+import com.bilplay.model.*;
 import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
 import org.jdbi.v3.sqlobject.customizer.Bind;
+import org.jdbi.v3.sqlobject.statement.GetGeneratedKeys;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 
@@ -76,4 +74,26 @@ public interface MainDao {
 
     @SqlUpdate("UPDATE user SET password = :password WHERE id = :id")
     void setPassword(@Bind("password") String password, @Bind("id") int id );
+
+    @SqlQuery("SELECT * FROM invite WHERE user_id = :id AND accepted = 0")
+    @RegisterBeanMapper(Invite.class)
+    List<Invite> getPendingInvites(@Bind("id") int id);
+
+    @SqlQuery("SELECT u.* FROM invite i JOIN user u ON i.user_id = u.id WHERE session_id = :id AND accepted = 1")
+    @RegisterBeanMapper(User.class)
+    List<User> getSessionUsers(@Bind("id") int id);
+
+    @SqlQuery("SELECT * FROM session WHERE id = :id")
+    @RegisterBeanMapper(Session.class)
+    Session getSessionById(@Bind("id") int id);
+
+    @SqlUpdate("INSERT INTO session (creator_id, game_id) VALUES (:cid, :gid)")
+    @GetGeneratedKeys
+    int createSession(@Bind("cid") int creatorId, @Bind("gid") int gameId);
+
+    @SqlUpdate("UPDATE invite SET accepted = 1 WHERE session_id = :sid AND user_id = :uid")
+    void acceptInvite(@Bind("sid") int sessionId, @Bind("uid") int userId);
+
+    @SqlUpdate("INSERT INTO invite (session_id, user_id) VALUES (:sid, :fid)")
+    void addInvite(@Bind("sid") int sessionId, @Bind("fid") int friendId);
 }

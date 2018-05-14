@@ -39,7 +39,7 @@
 		<div class = "grid-item">
 			<p>
 				<label style = "color:Blue;"><b>Email</b></label>
-				<input type="text" name="email" required>
+				<input type="2w" name="email" required>
 			</p>
 		</div>
 		<div class = "grid-item">

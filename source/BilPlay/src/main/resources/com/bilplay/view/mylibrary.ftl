@@ -162,7 +162,7 @@ table, td, th {
 
     		<div class = "blocks" style = "background-color:white; height:30%">
     		    <div class = "column3" style = "background-color:orange;">
-                    <button class="button">Play</button>
+					<button class="button"><a href="/create_session/${game.id}">Play</a></button>
     		    </div>
     		    <div class = "column4" style = "background-color:white;">
     		        <div class = "column5" style = "background-color:white;"></div>

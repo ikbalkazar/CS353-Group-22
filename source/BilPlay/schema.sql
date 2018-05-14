@@ -75,4 +75,25 @@ CREATE TABLE `message` (
 );
 INSERT INTO `message` (`user_id`, `friend_id`, `content`) VALUES (1, 2, 'Hey co-admin!');
 
+
+DROP TABLE IF EXISTS `session`;
+CREATE TABLE `session` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `creator_id` INT NOT NULL,
+    `game_id` INT NOT NULL,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`creator_id`) REFERENCES `user`(id),
+    FOREIGN KEY (`game_id`) REFERENCES `game`(id)
+);
+
+DROP TABLE IF EXISTS `invite`;
+CREATE TABLE `invite` (
+    `session_id` INT NOT NULL,
+    `user_id` INT NOT NULL,
+    `accepted` INT NOT NULL DEFAULT 0,
+    PRIMARY KEY (`session_id`, `user_id`),
+    FOREIGN KEY (`session_id`) REFERENCES `session`(id),
+    FOREIGN KEY (`user_id`) REFERENCES `user`(id)
+);
+
 SET FOREIGN_KEY_CHECKS = 1;

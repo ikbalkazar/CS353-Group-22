@@ -2,10 +2,7 @@ package com.bilplay.resources;
 
 import com.bilplay.auth.Authenticated;
 import com.bilplay.db.MainDao;
-import com.bilplay.model.Game;
-import com.bilplay.model.Message;
-import com.bilplay.model.Review;
-import com.bilplay.model.User;
+import com.bilplay.model.*;
 import com.bilplay.view.*;
 
 
@@ -83,8 +80,9 @@ public class MainResource {
         for( int i = 0 ; i < gamesID.size() ; i++ ){
             games.add( dao.getGameById( gamesID.get(i) ) );
         }
+        Game game = dao.getGameById(game_id);
         int timePlayed = 218;
-        return new MyLibraryView( username, games, game_id, timePlayed );
+        return new MyLibraryView( username, games, game_id, timePlayed, game );
     }
 
     @Path("/submit_signup")
@@ -159,7 +157,8 @@ public class MainResource {
     public FriendsView friends(@Context SecurityContext context) {
         User user = (User)context.getUserPrincipal();
         List<User> friends = dao.getFriends(user.getId());
-        return new FriendsView(friends);
+        List<Invite> invites = dao.getPendingInvites(user.getId());
+        return new FriendsView(friends, invites);
     }
 
     @Path("/add_friend")
@@ -256,6 +255,44 @@ public class MainResource {
         dao.addMessage(user.getId(), friend.getId(), message);
         String url = "/chat/" + friend.getId();
         return redirect(url);
+    }
+
+    @Path("/session/{id}")
+    @GET
+    @Authenticated
+    public SessionView session(@PathParam("id") int sessionId, @Context SecurityContext context) {
+        User user = (User)context.getUserPrincipal();
+        Session session = dao.getSessionById(sessionId);
+        Game game = dao.getGameById(session.getGameId());
+        List<User> sessionUsers = dao.getSessionUsers(sessionId);
+        List<User> friends = dao.getFriends(user.getId());
+        return new SessionView(user, game, session, sessionUsers, friends);
+    }
+
+    @Path("/create_session/{gid}")
+    @GET
+    @Authenticated
+    public Response createSession(@PathParam("gid") int gameId, @Context SecurityContext context) {
+        User user = (User)context.getUserPrincipal();
+        int sessionId = dao.createSession(user.getId(), gameId);
+        return redirect("/session/" + sessionId);
+    }
+
+    @Path("/join/{sid}")
+    @GET
+    @Authenticated
+    public Response join(@PathParam("sid") int sessionId, @Context SecurityContext context) {
+        User user = (User)context.getUserPrincipal();
+        dao.acceptInvite(sessionId, user.getId());
+        return redirect("/session/" + sessionId);
+    }
+
+    @Path("/invite/{sid}/{fid}")
+    @GET
+    @Authenticated
+    public Response invite(@PathParam("sid") int sessionId, @PathParam("fid") int friendId) {
+        dao.addInvite(sessionId, friendId);
+        return redirect("/session/" + sessionId);
     }
 }
 
