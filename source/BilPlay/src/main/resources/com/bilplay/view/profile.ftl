@@ -1,4 +1,10 @@
 <html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <head>
 <style>
 
@@ -46,6 +52,12 @@
     padding: 10px;
     height: 290px; /* Should be removed. Only for demonstration */
 }
+.column10 {
+     float: left;
+     width: 12%;
+     padding: 10px;
+     height: 290px; /* Should be removed. Only for demonstration */
+ }
 
 .column3 {
     float: left;
@@ -65,7 +77,7 @@
 }
 .column6 {
     float: left;
-    width: 30%;
+    width: 33%;
     height: 290px; /* Should be removed. Only for demonstration */
 }
 .column7 {
@@ -135,13 +147,13 @@ table, td, th {
     background-color: white;
     width: 300px;
     border: 3px solid black;
-    padding: 30px;
+    padding: 20px;
     margin: 30px 0px;
 }
 
 .nameChangeBox2{
     background-color: white;
-    width: 230px;
+    width: 260px;
     border: 3px solid black;
     padding: 40px;
     margin: 30px 15px;
@@ -157,7 +169,7 @@ table, td, th {
 </style>
 </head>
 
-<body>
+<body style = "font-family: "Montserrat", sans-serif;" >
 <table align=center>
     <tr>
     <td><b>BILPLAY</b></td>
@@ -208,7 +220,7 @@ table, td, th {
                 </form>
                 </div>
    	        </div>
-   	        <div class = "column2" style = "background-color:white;"></div>
+   	        <div class = "column10" style = "background-color:white;"></div>
         </div>
    	    <div class = "blocks" style = "background-color:yellow; height:50%">
    	        <div class = "column2" style = "background-color:white;"></div>

@@ -50,7 +50,7 @@ public interface MainDao {
     @RegisterBeanMapper(Game.class)
     Game getGameById(@Bind("id") int id);
 
-    @SqlQuery("SELECT * FROM game,(SELECT game_id,AVG(rating) as rating FROM review GROUP BY game_id) AS reviews WHERE id = :id")
+    @SqlQuery("SELECT * FROM game,(SELECT game_id,AVG(rating) as rating FROM review GROUP BY game_id) AS reviews WHERE id = :id AND game_id = id")
     @RegisterBeanMapper(Game.class)
     Game getGameByIdIncludingRating(@Bind("id") int id);
 
