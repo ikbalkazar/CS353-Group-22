@@ -158,10 +158,10 @@ table, td, th {
         </#list>
 
     </div>
-    <div class="column2" style = "background-color:purple;">
+    <div class="column2" style = "background-color:white;">
     	<div class='wrap'>
     		<div class = "blocks" style = "background-color:white; height:70%">
-
+                <img src=${game.pic} alt=${game.id} width="85%" height="400">
             </div>
 
     		<div class = "blocks" style = "background-color:white; height:30%">
