@@ -7,5 +7,8 @@
 <form action="/make_purchase/${game.id}" method="post">
     <button type="submit">Purchase</button>
 </form>
+
+<strong>${message}</strong>
+
 </body>
 </html>

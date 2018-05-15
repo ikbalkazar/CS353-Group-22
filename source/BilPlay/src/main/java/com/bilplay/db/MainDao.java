@@ -63,7 +63,13 @@ public interface MainDao {
 
     @SqlUpdate("INSERT INTO purchase (user_id, game_id) VALUES (:user_id, :game_id)")
     void addPurchase(@Bind("user_id") int userId, @Bind("game_id") int gameId);
+/*
+    bi user bi oyunu satin almis mi sorgusu
 
+    @SqlQuery("SELECT * FROM purchase WHERE user_id = :user_id AND game_id = :game_id")
+    @RegisterBeanMapper(Purchase.class)
+    List<Purchase> checkPurchase( @Bind("user_id") int user_id , @Bind("game_id") int game_id );
+*/
     @SqlQuery("SELECT game_id FROM purchase WHERE user_id = :id")
     List<Integer> getGamesByIdOfUser( @Bind("id") int id );
 

@@ -126,7 +126,8 @@ public class MainResource {
 
 	if( userByName == null && userByEmail == null && password.equals(password2) ){
 		dao.addNewUser( username, email, password );
-	    return Response.seeOther(URI.create("/index"))
+		dao.addPurchase( dao.getUserByUsername(username).getId() , 1 );
+	    return Response.seeOther(URI.create("/profile"))
                 .cookie(new NewCookie("bilplay-username", username))
                 .cookie(new NewCookie("bilplay-password", password))
                 .build();
@@ -172,10 +173,10 @@ public class MainResource {
     @Path("/purchase/{id}")
     @GET
     @Authenticated
-    public PurchaseView purchase(@PathParam("id") int id, @Context SecurityContext context) {
+    public PurchaseView purchase(@PathParam("id") int id, @Context SecurityContext context, @DefaultValue("") @QueryParam("message") String message) {
         User user = (User)context.getUserPrincipal();
         Game game = dao.getGameById(id);
-        return new PurchaseView(user, game);
+        return new PurchaseView(user, game, message);
     }
 
     @Path("/make_purchase/{id}")
@@ -186,8 +187,19 @@ public class MainResource {
         Game game = dao.getGameById(id);
         //System.out.printf("budget: %f\n", user.getBudget());
         if (user.getBudget() < game.getPrice()) {
-            return rejectRequest();
+            return Response.seeOther(URI.create("/purchase/" + id +"?message=Insufficient%20Balance!")).build();
         }
+        /*
+
+        USER AYNI OYUNU TEKRAR ALMAYA CALISIYORSA ALMASIN
+
+        List<Purchase> p = dao.checkPurchase( user.getId() , game.getId() );
+
+        if ( !p.isEmpty() ){
+            return Response.seeOther(URI.create("/purchase/" + id +"?message=You%20already%20have%20this%20game!")).build();
+        }
+        */
+
         Double newBudget = user.getBudget() - game.getPrice();
         dao.updateUserBudget(user.getId(), newBudget);
         dao.addPurchase(user.getId(), game.getId());
