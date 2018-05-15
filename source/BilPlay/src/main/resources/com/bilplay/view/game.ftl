@@ -36,7 +36,7 @@ h1 {
   	<h1 style="text-align:left;">PRICE: ${game.price}
     <span style="float:right;">RATING: ${game.rating}</span></h1>
   </div>
-  <a href="/make_purchase/${game.id}" class="w3-button w3-red w3-margin-top w3-round-xxlarge w3-xxlarge w3-border w3-border-blue w3-hover-teal w3-center">Purchase Game
+  <a href="/purchase/${game.id}" class="w3-button w3-red w3-margin-top w3-round-xxlarge w3-xxlarge w3-border w3-border-blue w3-hover-teal w3-center">Purchase Game
   </a>
 </div>
 
