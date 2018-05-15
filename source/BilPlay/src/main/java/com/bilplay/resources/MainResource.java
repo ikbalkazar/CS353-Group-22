@@ -164,7 +164,7 @@ public class MainResource {
     @GET
     @Authenticated
     public GameView game(@PathParam("id") int id) {
-        Game game = dao.getGameById(id);
+        Game game = dao.getGameByIdIncludingRating(id);
         List<Review> reviews = dao.getGameReviews(id);
         return new GameView(game, reviews);
     }
@@ -184,7 +184,7 @@ public class MainResource {
     public Response makePurchase(@PathParam("id") int id, @Context SecurityContext context) {
         User user = (User)context.getUserPrincipal();
         Game game = dao.getGameById(id);
-        System.out.printf("budget: %f\n", user.getBudget());
+        //System.out.printf("budget: %f\n", user.getBudget());
         if (user.getBudget() < game.getPrice()) {
             return rejectRequest();
         }
@@ -407,5 +407,3 @@ public class MainResource {
         return Response.seeOther(URI.create("/store?genre=" + genre +"&price=" + price + "&rating=" + rating)).build();
     }
 }
-
-
