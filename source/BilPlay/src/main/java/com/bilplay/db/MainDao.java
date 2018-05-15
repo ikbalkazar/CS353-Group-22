@@ -50,7 +50,8 @@ public interface MainDao {
     @RegisterBeanMapper(Game.class)
     Game getGameById(@Bind("id") int id);
 
-    @SqlQuery("SELECT * FROM game,(SELECT game_id,AVG(rating) as rating FROM review GROUP BY game_id) AS reviews WHERE id = :id AND game_id = id")
+
+    @SqlQuery("SELECT * FROM game,(SELECT game_id,AVG(rating) as rating FROM review GROUP BY game_id) AS reviews WHERE id = :id AND game_id = :id")
     @RegisterBeanMapper(Game.class)
     Game getGameByIdIncludingRating(@Bind("id") int id);
 
@@ -132,7 +133,7 @@ public interface MainDao {
     @RegisterBeanMapper(Review.class)
     Review getReview( @Bind("user_id") int user_id , @Bind("game_id") int game_id );
 
-    @SqlUpdate("INSERT INTO review (user_id,game_id,rating,comment) VALUES (':user_id',':game_id',':rating', ':comment')")
+    @SqlUpdate("INSERT INTO review (user_id,game_id,rating,comment) VALUES (:user_id,:game_id,:rating, :comment)")
     void addReview( @Bind("user_id") int user_id , @Bind("game_id") int game_id , @Bind("rating") int rating, @Bind("comment") String comment);
 
     @SqlUpdate("UPDATE review SET rating = :rating WHERE user_id = :user_id AND game_id = :game_id")
