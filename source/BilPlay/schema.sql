@@ -9,7 +9,8 @@ CREATE TABLE `user` (
 	`email` VARCHAR(256) NOT NULL,
 	`password` VARCHAR(32) NOT NULL,
 	`budget` DOUBLE NOT NULL DEFAULT 0,
-	PRIMARY KEY (`id`)
+	PRIMARY KEY (`id`),
+	UNIQUE (`email`)
 );
 INSERT INTO `user` (`username`, `password`, `email`, `budget`) VALUES ('admin', 'password', 'admin@gmail.com', 50);
 INSERT INTO `user` (`username`, `password`, `email`, `budget`) VALUES ('co-admin', 'password', 'co-admin@gmail.com', 100);
@@ -77,6 +78,8 @@ CREATE TABLE `purchase` (
     FOREIGN KEY (`user_id`) REFERENCES `user`(id),
     FOREIGN KEY (`game_id`) REFERENCES `game`(id)
 );
+INSERT INTO `purchase` (`user_id`, `game_id`) VALUES (1, 1);
+INSERT INTO `purchase` (`user_id`, `game_id`) VALUES (2, 1);
 
 DROP TABLE IF EXISTS `message`;
 CREATE TABLE `message` (

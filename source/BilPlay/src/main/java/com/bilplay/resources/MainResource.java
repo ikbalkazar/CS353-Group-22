@@ -86,7 +86,7 @@ public class MainResource {
 
         Game game = dao.getGameById(game_id);
 
-        int timePlayed = 218;
+        int timePlayed = dao.getTimePlayed(user.getId(), game_id) + dao.getAdminTimePlayed(user.getId(), game_id);
         return new MyLibraryView( username, games, game_id, timePlayed, game );
     }
 
@@ -377,7 +377,7 @@ public class MainResource {
         User user = (User)context.getUserPrincipal();
         Session session = dao.getSessionById(sessionId);
         if (user.getId() == session.getCreatorId()) {
-            dao.adminLeaveSession(user.getId());
+            dao.adminLeaveSession(sessionId);
         } else {
             dao.leaveSession(sessionId, user.getId());
         }

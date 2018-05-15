@@ -177,7 +177,7 @@ table, td, th {
     		    <div class = "column4" style = "background-color:white;">
     		        <div class = "column5" style = "background-color:white;"></div>
     		        <div class = "column6" style = "background-color:white;">
-    		            <p><font size = "3"> Time Played : ${timePlayed} Hours</font></p>
+    		            <p><font size = "3"> Time Played : ${timePlayed} seconds</font></p>
     		        </div>
     		        <div class = "column7" style = "background-color:white;">
                         <form action="/postReview?game_id=${firstGame}" method="post">

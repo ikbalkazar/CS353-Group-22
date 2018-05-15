@@ -141,4 +141,9 @@ public interface MainDao {
     @SqlUpdate("UPDATE review SET comment = :comment WHERE user_id = :user_id AND game_id = :game_id")
     void updateReviewComment( @Bind("user_id") int user_id , @Bind("game_id") int game_id , @Bind("comment") String comment );
 
+    @SqlQuery("select SUM(TIMESTAMPDIFF(SECOND, i.accepted_at, i.left_at)) from invite i JOIN session s ON i.session_id = s.id where i.user_id = :user_id and s.game_id = :gid")
+    int getTimePlayed(@Bind("user_id") int userId, @Bind("gid") int gameId);
+
+    @SqlQuery("select SUM(TIMESTAMPDIFF(SECOND, created_at, left_at)) from session where creator_id = :user_id and game_id = :gid")
+    int getAdminTimePlayed(@Bind("user_id") int userId, @Bind("gid") int gameId);
 }
