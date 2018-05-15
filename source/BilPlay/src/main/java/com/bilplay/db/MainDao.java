@@ -108,6 +108,10 @@ public interface MainDao {
     @SqlUpdate("INSERT INTO invite (session_id, user_id) VALUES (:sid, :fid)")
     void addInvite(@Bind("sid") int sessionId, @Bind("fid") int friendId);
 
+    @SqlQuery("SELECT * FROM invite WHERE session_id = :sid AND user_id = :fid")
+    @RegisterBeanMapper(Invite.class)
+    Invite getInvite(@Bind("sid") int sessionId, @Bind("fid") int friendId);
+
     @SqlUpdate("UPDATE invite SET left_at = NOW() WHERE session_id = :sid AND user_id = :uid")
     void leaveSession(@Bind("sid") int sessionId, @Bind("uid") int userId);
 

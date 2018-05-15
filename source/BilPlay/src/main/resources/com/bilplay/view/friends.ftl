@@ -40,18 +40,20 @@
         </tbody>
     </table>
     <br><br>
+    <h2>Invitations</h2>
     <table class="table">
         <thead>
         <tr>
             <th>Username</th>
+            <th>Game</th>
         </tr>
         </thead>
         <tbody>
         <#list invites as invite>
             <tr>
-                <td><h2>${invite.sessionId}</h2></td>
-                <td><h2>${invite.userId}</h2></td>
-                <td><a href="/join/${invite.sessionId}">Accept</a></td>
+                <td>${invite.inviter.username}</td>
+                <td>${invite.game.name}</td>
+                <td><a href="/join/${invite.invite.sessionId}">Accept</a></td>
             </tr>
         </#list>
         </tbody>

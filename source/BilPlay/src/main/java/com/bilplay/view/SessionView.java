@@ -2,6 +2,7 @@ package com.bilplay.view;
 
 import com.bilplay.model.Game;
 import com.bilplay.model.Session;
+import com.bilplay.model.SessionUser;
 import com.bilplay.model.User;
 import io.dropwizard.views.View;
 
@@ -12,9 +13,9 @@ public class SessionView extends View {
     private Game game;
     private Session session;
     private List<User> users;
-    private List<User> friends;
+    private List<SessionUser> friends;
 
-    public SessionView(User user, Game game, Session session, List<User> users, List<User> friends) {
+    public SessionView(User user, Game game, Session session, List<User> users, List<SessionUser> friends) {
         super("session.ftl");
         this.user = user;
         this.game = game;
@@ -39,7 +40,7 @@ public class SessionView extends View {
         return users;
     }
 
-    public List<User> getFriends() {
+    public List<SessionUser> getFriends() {
         return friends;
     }
 

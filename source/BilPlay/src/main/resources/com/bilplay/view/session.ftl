@@ -24,10 +24,16 @@
         </thead>
         <tbody>
             <#list friends as friend>
-                <tr><td>${friend.username}
-                    <td><#if session.creatorId == user.id>
-                        <a href="/invite/${session.id}/${friend.id}">Invite</a>
-                    </#if></td>
+                <tr><td>${friend.user.username}
+                    <td>
+                        <#if session.creatorId == user.id>
+                            <#if !friend.invited >
+                                <a href="/invite/${session.id}/${friend.user.id}">Invite</a>
+                            <#else>
+                                Invited
+                            </#if>
+                        </#if>
+                    </td>
                 </tr>
             </#list>
         </tbody>

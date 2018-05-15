@@ -201,7 +201,13 @@ public class MainResource {
         User user = (User)context.getUserPrincipal();
         List<User> friends = dao.getFriends(user.getId());
         List<Invite> invites = dao.getPendingInvites(user.getId());
-        return new FriendsView(friends, invites);
+        List<InviteBundle> inviteBundles = new ArrayList<>();
+        for (Invite invite: invites) {
+            Session session = dao.getSessionById(invite.getSessionId());
+            Game game = dao.getGameById(session.getGameId());
+            inviteBundles.add(new InviteBundle(invite, game, dao.getUserById(session.getCreatorId())));
+        }
+        return new FriendsView(friends, inviteBundles);
     }
 
     @Path("/add_friend")
@@ -309,7 +315,15 @@ public class MainResource {
         Game game = dao.getGameById(session.getGameId());
         List<User> sessionUsers = dao.getSessionUsers(sessionId);
         List<User> friends = dao.getFriends(user.getId());
-        return new SessionView(user, game, session, sessionUsers, friends);
+        List<SessionUser> sessionFriends = new ArrayList<>();
+        for (User friend: friends) {
+            Invite invite = dao.getInvite(sessionId, friend.getId());
+            if (invite != null && invite.getAccepted() == 1) {
+                continue;
+            }
+            sessionFriends.add(new SessionUser(friend, invite != null));
+        }
+        return new SessionView(user, game, session, sessionUsers, sessionFriends);
     }
 
     @Path("/create_session/{gid}")
